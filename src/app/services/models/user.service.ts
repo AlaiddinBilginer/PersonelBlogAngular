@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from '../common/http-client.service';
-import { User } from '../../entities/user';
-import { RegisterUser } from '../../contracts/user/register-user';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { LoginUserRequest } from '../../contracts/user/login-user/login-user-request';
+import { LoginUserSuccessResponse } from '../../contracts/user/login-user/login-user-success-response';
+import { LoginUserErrorResponse } from '../../contracts/user/login-user/login-user-error-response';
+import { RegisterUserRequest } from '../../contracts/user/register-user/register-user-request';
+import { RegisterUserSuccessResponse } from '../../contracts/user/register-user/register-user-success-response';
+import { RegisterUserErrorResponse } from '../../contracts/user/register-user/register-user-error-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +17,17 @@ export class UserService {
     private httpClientService: HttpClientService
   ) { }
 
-  register(user: User) : Observable<RegisterUser> {
-    return this.httpClientService.post<RegisterUser | User>({
+  register(registerUserRequest: RegisterUserRequest) : Observable<RegisterUserSuccessResponse | RegisterUserErrorResponse> {
+    return this.httpClientService.post<RegisterUserSuccessResponse | RegisterUserErrorResponse>({
       controller: 'users',
       action: 'register'
-    }, user).pipe(
-      map((response: RegisterUser | User) => response as RegisterUser) 
-    );
+    }, registerUserRequest);
+  }
+
+  login(loginUserRequest: LoginUserRequest) : Observable<LoginUserSuccessResponse | LoginUserErrorResponse> {
+    return this.httpClientService.post<LoginUserSuccessResponse | LoginUserErrorResponse>({
+      controller: 'users',
+      action: 'login'
+    }, loginUserRequest);
   }
 }

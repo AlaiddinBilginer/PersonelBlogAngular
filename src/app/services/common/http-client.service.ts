@@ -35,12 +35,12 @@ export class HttpClientService {
     return this.httpClient.get<T>(url, { headers: requestParameters.headers });
   }
   
-  post<T>(requestParameters: Partial<RequestParameters>, body: Partial<T>): Observable<T> {
+  post<T>(requestParameters: Partial<RequestParameters>, body: any): Observable<T> {
     const url = this.buildUrl(requestParameters);
     return this.httpClient.post<T>(url, body, { headers: requestParameters.headers });
   }
 
-  put<T>(requestParameters: Partial<RequestParameters>, body: Partial<T>): Observable<T> {
+  put<T>(requestParameters: Partial<RequestParameters>, body: any): Observable<T> {
     const url = this.buildUrl(requestParameters);
     return this.httpClient.put<T>(url, body, { headers: requestParameters.headers });
   }

@@ -1,4 +1,4 @@
-<nav class="bg-slate-100 border-b border-4 border-gray-100 shadow-xl">
+<nav class="bg-slate-100 border-gray-100 shadow-xl border-b-2 border-yellow-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16 items-center">
       <!-- Logo -->
@@ -21,21 +21,35 @@
       
       <!-- Profile and Actions -->
       <div class="hidden md:flex md:items-center md:space-x-4">
-        <a routerLink="/writer/create-blog" 
+        <a (click)="goRoute()"
           class="text-gray-600 hover:text-sky-500 transition ease-in-out duration-200 flex gap-2 
-                items-center group mr-2">
+                items-center group mr-2 cursor-pointer">
           <img src="../../../../assets/svg/writing.svg" alt="Writing" 
             class="h-7 group-hover:scale-105 transition-transform duration-200">Yaz
         </a>
-        <a routerLink="/register" class="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition ease-in-out duration-200">Kayıt Ol</a>
-        <a routerLink="/login" class="px-4 py-2 border border-sky-500 text-sky-500 rounded-md hover:bg-sky-500 hover:text-white transition ease-in-out duration-200">Giriş Yap</a>
-        <!-- <div class="relative">
+        <a 
+          routerLink="/register" 
+          class="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition ease-in-out 
+                  duration-200"
+          *ngIf="!authService.isAuthenticated"
+        >
+          Kayıt Ol
+        </a>
+        <a 
+          routerLink="/login" 
+          class="px-4 py-2 border border-sky-500 text-sky-500 rounded-md hover:bg-sky-500 
+                  hover:text-white transition ease-in-out duration-200"
+          *ngIf="!authService.isAuthenticated"
+        >
+          Giriş Yap
+        </a>
+        <div class="relative" *ngIf="authService.isAuthenticated">
           <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="User Profile" class="h-10 w-10 rounded-full cursor-pointer border border-gray-300" (click)="toggleProfileMenu()">
           <div *ngIf="isProfileMenuOpen" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
             <a href="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profili Görüntüle</a>
-            <a href="/logout" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Çıkış Yap</a>
+            <a class="block px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer" (click)="signOut()">Çıkış Yap</a>
           </div>
-        </div> -->
+        </div>
       </div>
 
       <!-- Mobile Hamburger Icon -->

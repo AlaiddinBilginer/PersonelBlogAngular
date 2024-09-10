@@ -1,1 +1,52 @@
-<p>login works!</p>
+<div class="flex min-h-screen">
+
+  <div class="flex w-full md:w-1/2 items-center justify-center p-10 bg-white pt-0">
+    <div class="max-w-md w-full">
+      <h2 class="text-3xl font-bold text-center mb-6">Giriş Yap</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-4">
+          <label for="emailOrUsername" class="block text-sm font-medium text-gray-700">
+            Kullanıcı Adı veya E-Posta
+          </label>
+          <input type="text" id="emailOrUsername" formControlName="emailOrUsername" 
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500
+                       focus:border-sky-500" 
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Şifre
+          </label>
+          <input type="password" id="password" formControlName="password" 
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500
+                       focus:border-sky-500" 
+          />
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full p-3 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:ring-4 focus:-300 
+                cursor-pointer"
+        >
+          Giriş Yap
+        </button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p>Hesabınız yok mu?
+          <a routerLink="/register" class="text-sky-600 hover:text-sky-800 font-medium">
+            Kayıt ol
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden md:flex w-1/2 bg-cover bg-center background">
+    <div class="flex flex-col justify-center items-center h-full w-full bg-blue-900 bg-opacity-10 text-white">
+    </div>
+  </div>
+
+</div>

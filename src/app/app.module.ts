@@ -9,8 +9,15 @@ import { AdminModule } from './admin/admin.module';
 import { ReaderModule } from './reader/reader.module';
 import { WriterModule } from './writer/writer.module';
 import { SharedModule } from './shared/shared.module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
+import { ToastrModule } from 'ngx-toastr';
+
+export function tokenGetter() {
+  return localStorage.getItem("accessToken");
+}
 
 @NgModule({
   declarations: [
@@ -19,10 +26,18 @@ import { provideHttpClient } from '@angular/common/http';
     FooterComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     AdminModule, ReaderModule, WriterModule,
-    SharedModule
+    SharedModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:44330"]
+      }
+    }),
+    ToastrModule.forRoot(),
   ],
   providers: [
     {
@@ -30,7 +45,8 @@ import { provideHttpClient } from '@angular/common/http';
       useValue: 'https://localhost:44330/api',
       multi: false
     },
-    provideHttpClient()
+    provideHttpClient(),
+    provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]
 })
