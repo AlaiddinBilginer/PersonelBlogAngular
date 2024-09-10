@@ -14,6 +14,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export function tokenGetter() {
   return localStorage.getItem("accessToken");
@@ -38,6 +39,7 @@ export function tokenGetter() {
       }
     }),
     ToastrModule.forRoot(),
+    NgxSpinnerModule.forRoot({ type: 'line-scale-pulse-out' })
   ],
   providers: [
     {

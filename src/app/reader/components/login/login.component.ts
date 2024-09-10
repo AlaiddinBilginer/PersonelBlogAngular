@@ -7,6 +7,7 @@ import { LocalStorageService } from '../../../services/common/local-storage.serv
 import { Token } from '../../../contracts/token/token';
 import { AuthService } from '../../../services/auth.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent {
     private router: Router,
     private localStorageService: LocalStorageService,
     private authService: AuthService,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private spinner: NgxSpinnerService
   ) {
     this.loginForm = this.formBuilder.group({
       emailOrUsername: ['', Validators.required],
@@ -32,6 +34,7 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
+      this.spinner.show();
       const loginUser: LoginUserRequest = this.loginForm.value;
 
       this.userService.login(loginUser).subscribe({
@@ -41,7 +44,7 @@ export class LoginComponent {
 
     } else {
       this.toastrService.message("Geçersiz değerler girdiniz", "Hata", {
-        toastrMessageType: ToastrMessageType.Info,
+        toastrMessageType: ToastrMessageType.Error,
         toastrPosition: ToastrPosition.BottomLeft
       })
     }
@@ -63,6 +66,7 @@ export class LoginComponent {
         toastrPosition: ToastrPosition.BottomLeft
       });
     }
+    this.spinner.hide();
   }
 
   private handleError(error: any) {
@@ -70,6 +74,7 @@ export class LoginComponent {
       toastrMessageType: ToastrMessageType.Error,
       toastrPosition: ToastrPosition.TopCenter
     });
+    this.spinner.hide();
   }
 
 }

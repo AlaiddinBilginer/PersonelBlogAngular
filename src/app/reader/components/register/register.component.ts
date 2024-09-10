@@ -8,6 +8,7 @@ import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../..
 import { RegisterUserRequest } from '../../../contracts/user/register-user/register-user-request';
 import { RegisterUserSuccessResponse } from '../../../contracts/user/register-user/register-user-success-response';
 import { RegisterUserErrorResponse } from '../../../contracts/user/register-user/register-user-error-response';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private spinner: NgxSpinnerService
   ) {
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4)]],
@@ -35,6 +37,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.spinner.show();
       const registerUserRequest: RegisterUserRequest = this.registerForm.value;
 
       this.userService.register(registerUserRequest).subscribe({
@@ -62,6 +65,7 @@ export class RegisterComponent {
         toastrPosition: ToastrPosition.BottomRight
       });
     }
+    this.spinner.hide();
   }
 
   private handleError(error: any) {
@@ -70,5 +74,6 @@ export class RegisterComponent {
       toastrMessageType: ToastrMessageType.Error,
       toastrPosition: ToastrPosition.BottomRight
     });
+    this.spinner.hide();
   }
 }
