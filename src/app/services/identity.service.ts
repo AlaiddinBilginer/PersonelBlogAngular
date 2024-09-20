@@ -5,7 +5,7 @@ import { LocalStorageService } from './common/local-storage.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class IdentityService {
 
   constructor(
     private jwtHelper: JwtHelperService,

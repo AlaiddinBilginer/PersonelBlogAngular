@@ -31,7 +31,7 @@
           routerLink="/register" 
           class="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition ease-in-out 
                   duration-200"
-          *ngIf="!authService.isAuthenticated"
+          *ngIf="!identityService.isAuthenticated"
         >
           Kayıt Ol
         </a>
@@ -39,11 +39,11 @@
           routerLink="/login" 
           class="px-4 py-2 border border-sky-500 text-sky-500 rounded-md hover:bg-sky-500 
                   hover:text-white transition ease-in-out duration-200"
-          *ngIf="!authService.isAuthenticated"
+          *ngIf="!identityService.isAuthenticated"
         >
           Giriş Yap
         </a>
-        <div class="relative" *ngIf="authService.isAuthenticated">
+        <div class="relative" *ngIf="identityService.isAuthenticated">
           <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="User Profile" class="h-10 w-10 rounded-full cursor-pointer border border-gray-300" (click)="toggleProfileMenu()">
           <div *ngIf="isProfileMenuOpen" class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
             <a href="/profile" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profili Görüntüle</a>

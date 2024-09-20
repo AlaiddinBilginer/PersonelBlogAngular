@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../../../services/models/user.service';
-import { User } from '../../../entities/user';
 import { passwordStrengthValidator, passwordMatchValidator } from './register.validators';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { RegisterUserRequest } from '../../../contracts/user/register-user/register-user-request';
 import { RegisterUserSuccessResponse } from '../../../contracts/user/register-user/register-user-success-response';
 import { RegisterUserErrorResponse } from '../../../contracts/user/register-user/register-user-error-response';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +19,7 @@ export class RegisterComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router,
     private toastrService: CustomToastrService,
     private spinner: NgxSpinnerService
@@ -40,7 +39,7 @@ export class RegisterComponent {
       this.spinner.show();
       const registerUserRequest: RegisterUserRequest = this.registerForm.value;
 
-      this.userService.register(registerUserRequest).subscribe({
+      this.authService.register(registerUserRequest).subscribe({
         next: response => this.handleSuccess(response),
         error: error => this.handleError(error)
       });
