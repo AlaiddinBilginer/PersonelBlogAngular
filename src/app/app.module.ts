@@ -11,10 +11,11 @@ import { WriterModule } from './writer/writer.module';
 import { SharedModule } from './shared/shared.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { HttpErrorService } from './services/interceptor/http-error.service';
 
 export function tokenGetter() {
   return localStorage.getItem("accessToken");
@@ -48,7 +49,8 @@ export function tokenGetter() {
       multi: false
     },
     provideHttpClient(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })
