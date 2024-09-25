@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginUserRequest } from '../../../contracts/user/login-user/login-user-request';
 import { LocalStorageService } from '../../../services/common/local-storage.service';
 import { Token } from '../../../contracts/token/token';
@@ -24,7 +24,8 @@ export class LoginComponent {
     private localStorageService: LocalStorageService,
     private identityService: IdentityService,
     private toastrService: CustomToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.loginForm = this.formBuilder.group({
       emailOrUsername: ['', Validators.required],
@@ -54,7 +55,15 @@ export class LoginComponent {
     if(response.succeeded) {
       const token: Token = response.token;
       this.localStorageService.set("accessToken", token.accessToken);
-      this.router.navigate(["/"]);
+
+      this.activatedRoute.queryParams.subscribe(params => {
+        const returnUrl: string = params["returnUrl"];
+        if (returnUrl) {
+          this.router.navigate([returnUrl]);
+        } else {
+          this.router.navigate(["/"]);
+        }
+      })
       this.identityService.checkIdentity();
       this.toastrService.message("Başarı ile giriş yapıldı", "Giriş Başarılı", {
         toastrMessageType: ToastrMessageType.Success,

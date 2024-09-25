@@ -5,6 +5,7 @@ import { HomeComponent } from './reader/components/home/home.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { RegisterComponent } from './reader/components/register/register.component';
 import { LoginComponent } from './reader/components/login/login.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -12,16 +13,18 @@ const routes: Routes = [
   { 
     path: 'blogs', loadChildren: () => 
       import('./reader/components/blogs/blogs.module')
-        .then((module) => module.BlogsModule)
+        .then((module) => module.BlogsModule),
+    canActivate: [authGuard]
   },
 
   { 
     path: 'writer', loadChildren: () => 
       import('./writer/components/components.module')
-        .then((module) => module.ComponentsModule)
+        .then((module) => module.ComponentsModule),
+    canActivate: [authGuard]
   },
 
-  { path: 'admin', component: LayoutComponent},
+  { path: 'admin', component: LayoutComponent, canActivate: [authGuard]},
 
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
