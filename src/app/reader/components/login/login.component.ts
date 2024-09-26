@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoginUserRequest } from '../../../contracts/user/login-user/login-user-request';
 import { LocalStorageService } from '../../../services/common/local-storage.service';
 import { Token } from '../../../contracts/token/token';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { IdentityService } from '../../../services/identity.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { LoginUserRequest } from '../../../contracts/user/login-user/login-user-request';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,8 @@ export class LoginComponent {
     this.loginForm = this.formBuilder.group({
       emailOrUsername: ['', Validators.required],
       password: ['', Validators.required]
-    })
+    });
+    identityService.checkIdentity();
   }
 
   onSubmit() {
@@ -55,6 +56,7 @@ export class LoginComponent {
     if(response.succeeded) {
       const token: Token = response.token;
       this.localStorageService.set("accessToken", token.accessToken);
+      this.localStorageService.set("refreshToken", token.refreshToken);
 
       this.activatedRoute.queryParams.subscribe(params => {
         const returnUrl: string = params["returnUrl"];

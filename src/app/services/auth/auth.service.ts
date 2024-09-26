@@ -3,10 +3,13 @@ import { RegisterUserRequest } from '../../contracts/user/register-user/register
 import { Observable } from 'rxjs';
 import { RegisterUserSuccessResponse } from '../../contracts/user/register-user/register-user-success-response';
 import { RegisterUserErrorResponse } from '../../contracts/user/register-user/register-user-error-response';
+import { HttpClientService } from '../common/http-client.service';
 import { LoginUserRequest } from '../../contracts/user/login-user/login-user-request';
 import { LoginUserSuccessResponse } from '../../contracts/user/login-user/login-user-success-response';
 import { LoginUserErrorResponse } from '../../contracts/user/login-user/login-user-error-response';
-import { HttpClientService } from '../common/http-client.service';
+import { RefreshTokenSuccessResponse } from '../../contracts/token/refresh-token/refresh-token-success-response';
+import { RefreshTokenErrorResponse } from '../../contracts/token/refresh-token/refresh-token-error-response';
+
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +32,12 @@ export class AuthService {
       controller: 'auth',
       action: 'login'
     }, loginUserRequest);
+  }
+
+  refreshToken(refreshToken: string): Observable<RefreshTokenSuccessResponse | RefreshTokenErrorResponse> {
+    return this.httpClientService.post<RefreshTokenSuccessResponse | RefreshTokenErrorResponse>({
+      controller: 'auth',
+      action: 'refreshToken'
+    }, {refreshToken});
   }
 }

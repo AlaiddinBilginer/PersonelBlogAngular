@@ -1,8 +1,12 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../auth/auth.service';
+import { LocalStorageService } from '../common/local-storage.service';
+import { IdentityService } from '../identity.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +15,11 @@ export class HttpErrorService implements HttpInterceptor {
 
   constructor(
     private toastrService: CustomToastrService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private authService: AuthService,
+    private localStorageService: LocalStorageService,
+    private identityService: IdentityService,
+    private router: Router
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -22,7 +30,7 @@ export class HttpErrorService implements HttpInterceptor {
       switch(error.status) {
         case HttpStatusCode.Unauthorized:
           message = "Bu işlemi yapmak için yetkiniz yok";
-          title = "Yetkisiz İşlem"
+          title = "Yetkisiz İşlem";
           break;
         case HttpStatusCode.InternalServerError:
           message = "Sunucuya erişilemedi";
@@ -42,7 +50,7 @@ export class HttpErrorService implements HttpInterceptor {
           break;
         default:
           message = "Beklenmeyen bir hata meydana geldi!";
-          title = "Beklenmeyen Hata"
+          title = "Beklenmeyen Hata";
           break;
       }
 
