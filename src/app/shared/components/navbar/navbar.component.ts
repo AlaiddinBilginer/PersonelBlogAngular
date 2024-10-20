@@ -27,26 +27,11 @@ export class NavbarComponent {
     this.identityService.checkIdentity();
     this.router.navigate(["/"]);
     this.toastrService.message("Başarı ile çıkış yapıldı", "Çıkış Başarılı", {
-      toastrMessageType: ToastrMessageType.Warning,
+      toastrMessageType: ToastrMessageType.Info,
       toastrPosition: ToastrPosition.BottomRight
     });
     this.isProfileMenuOpen = false;
   }
-
-  // goRoute() {
-  //   if(this.localStorageService.get("accessToken")) {
-  //     this.router.navigate(["/writer/create-blog"])
-  //   }
-  //   else {
-  //     this.router.navigate(["/login"]);
-  //     this.toastrService.message(
-  //       "Blog yazabilmek için sisteme giriş yapmanız gerekmektedir", "Giriş Sayfasına Yönlendirildiniz", 
-  //     {
-  //       toastrMessageType: ToastrMessageType.Info,
-  //       toastrPosition: ToastrPosition.TopLeft
-  //     })
-  //   }
-  // }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;

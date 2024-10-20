@@ -14,7 +14,6 @@ const routes: Routes = [
     path: 'blogs', loadChildren: () => 
       import('./reader/components/blogs/blogs.module')
         .then((module) => module.BlogsModule),
-    canActivate: [authGuard]
   },
 
   { 
