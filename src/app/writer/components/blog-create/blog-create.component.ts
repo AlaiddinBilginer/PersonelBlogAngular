@@ -1,9 +1,10 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../../../services/models/post.service';
 import { CreatePostRequest } from '../../../contracts/post/create-post-request';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CreatePostResponse } from '../../../contracts/post/create-post-response';
 
 @Component({
   selector: 'app-blog-create',
@@ -35,13 +36,16 @@ export class BlogCreateComponent {
     });
   }
 
+  @Output() blogId: string;
+
   saveBlog() {
     if (this.blogForm.valid) {
       this.spinnerService.show();
       const createPostRequest: CreatePostRequest = this.blogForm.value;
       this.postService.create(createPostRequest).subscribe({
-        next: (response) => {
+        next: (response: CreatePostResponse) => {
           this.spinnerService.hide();
+          this.blogId = response.id;
           this.isBlogSaved = true;
           this.toastrService.message(
             "Blog başarılı bir şekilde eklendi. Lütfen sıradaki işlemleri tamamlayınız.",

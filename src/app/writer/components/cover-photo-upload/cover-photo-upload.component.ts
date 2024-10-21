@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PostImagesService } from '../../../services/models/post-images.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -18,6 +18,7 @@ export class CoverPhotoUploadComponent {
   ) {}
 
   @Output() uploadComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() blogId: string;
 
   onSelect(event) {
     console.log(event);
@@ -31,11 +32,11 @@ export class CoverPhotoUploadComponent {
 
   uploadPhotos() {
     this.spinnerService.show();
-    this.postImagesService.upload(this.files).subscribe({
+    this.postImagesService.upload(this.files, this.blogId).subscribe({
       next: (response) => {
         this.spinnerService.hide();
         this.uploadComplete.emit(true);
-        this.toastrService.message("Kapak fotoğrafı yükleme işlemi başarılı", "Başarılı İşlem", {
+        this.toastrService.message(response.message, "Başarılı İşlem", {
           toastrMessageType: ToastrMessageType.Success,
           toastrPosition: ToastrPosition.TopRight
         });
@@ -43,7 +44,7 @@ export class CoverPhotoUploadComponent {
       error: (responseError) => {
         this.spinnerService.hide();
         this.uploadComplete.emit(false);
-        this.toastrService.message("Kapak fotoğrafı yükleme işlemi başarısız!", "Başarısız İşlem!", {
+        this.toastrService.message(responseError.message, "Başarısız İşlem!", {
           toastrMessageType: ToastrMessageType.Error,
           toastrPosition: ToastrPosition.TopRight
         });

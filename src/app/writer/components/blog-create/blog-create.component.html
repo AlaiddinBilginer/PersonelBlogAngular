@@ -22,7 +22,7 @@
 
   <div *ngIf="(isBlogSaved && !isPhotosSaved)" class="mt-8 space-y-6">
     <div class="mb-6">
-      <app-cover-photo-upload (uploadComplete)="onUploadComplete($event)"></app-cover-photo-upload>
+      <app-cover-photo-upload (uploadComplete)="onUploadComplete($event)" [blogId]="blogId"></app-cover-photo-upload>
     </div>
   </div>
 
