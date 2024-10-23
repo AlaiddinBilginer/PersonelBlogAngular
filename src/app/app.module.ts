@@ -9,13 +9,14 @@ import { AdminModule } from './admin/admin.module';
 import { ReaderModule } from './reader/reader.module';
 import { WriterModule } from './writer/writer.module';
 import { SharedModule } from './shared/shared.module';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpErrorService } from './services/interceptor/http-error.service';
+
 
 export function tokenGetter() {
   return localStorage.getItem("accessToken");
@@ -46,7 +47,7 @@ export function tokenGetter() {
     {
       provide: 'baseUrl',
       useValue: 'https://localhost:44330/api',
-      multi: false
+      multi: false,
     },
     provideHttpClient(),
     provideAnimationsAsync(),

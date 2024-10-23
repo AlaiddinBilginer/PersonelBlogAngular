@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BlogsComponent } from './blogs.component';
 import { RouterModule } from '@angular/router';
 import { ListBlogComponent } from './list-blog/list-blog.component';
+import { PipesModule } from '../../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { ListBlogComponent } from './list-blog/list-blog.component';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([{ path: '', component: BlogsComponent }])
+    RouterModule.forChild([{ path: '', component: BlogsComponent }]),
+    PipesModule
   ]
 })
 export class BlogsModule { }

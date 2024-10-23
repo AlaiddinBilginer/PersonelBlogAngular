@@ -15,6 +15,11 @@ const routes: Routes = [
       import('./reader/components/blogs/blogs.module')
         .then((module) => module.BlogsModule),
   },
+  { 
+    path: 'blogs/:pageNo', loadChildren: () => 
+      import('./reader/components/blogs/blogs.module')
+        .then((module) => module.BlogsModule),
+  },
 
   { 
     path: 'writer', loadChildren: () => 

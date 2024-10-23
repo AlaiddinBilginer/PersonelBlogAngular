@@ -1,6 +1,69 @@
-<ul>
-  <li *ngFor="let post of posts">
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.createdDate }}</p>
-  </li>
-</ul>
+<section class="py-12 mb-8">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-14">
+      <div class="bg-white rounded-lg overflow-hidden shadow-md relative"
+        *ngFor="let post of posts"
+      >
+        <a href="#" class="block">
+          <img [src]="post.firstImage ?? '../../../../assets/default-image.png'" alt="Blog Image" class="w-full h-44 object-cover transform transition hover:scale-105 cursor-pointer">
+        </a>
+        <div class="p-4">
+          <a href="#" class="block">
+            <h2 class="text-xl font-semibold mb-2 hover:underline cursor-pointer">{{ post.title }}</h2>
+          </a>
+          <p class="text-gray-700 mb-4">{{ post.content.substring(0, 45) }}...</p>
+          <div class="text-gray-500 text-sm mb-4 flex items-center">
+            <img src="../../../../assets/calendar.png" alt="Calendar Icon" class="h-4 w-4 mr-1">
+            <p>Yayınlanma Tarihi: {{ post.createdDate | formatDate }}</p>
+            <img src="../../../../assets/clock.png" alt="Clock Icon" class="h-4 w-4 mx-2">
+            <p>{{ post.createdDate | timeAgo }}</p>
+          </div>
+          <div class="text-gray-500 text-sm flex items-center">
+            <img src="../../../../assets/user.png" alt="User Icon" class="h-4 w-4 mr-1">
+            <p>Yazar: Alaiddin Bilginer</p>
+          </div>
+        </div>
+        <a href="#" class="absolute bottom-4 right-4 text-blue-600 hover:text-blue-800 transition-transform transform hover:scale-110 hover:translate-y-1">
+          <img src="../../../../assets/right.png" alt="Arrow Icon" class="h-6 w-6">
+        </a>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center mt-8 space-y-4">
+  
+      <nav class="inline-flex items-center space-x-2">
+        <a 
+          (click)="goToPreviousPage()" 
+          [class.opacity-70]="currentPageNo === 1" 
+          class="px-4 py-2 bg-gray-100 rounded-full shadow hover:bg-gray-200 transition text-gray-700 cursor-pointer"
+          [ngClass]="{'cursor-not-allowed': currentPageNo === 1}">
+          Önceki
+        </a>
+    
+        <a 
+          *ngFor="let pageNo of pageList" 
+          [routerLink]="['/blogs', pageNo]" 
+          class="px-4 py-2 rounded-full shadow text-sm"
+          [ngClass]="{
+            'bg-gray-100 text-gray-700 hover:bg-gray-200 transition': pageNo !== currentPageNo,
+            'bg-sky-500 text-white cursor-default': pageNo === currentPageNo
+          }">
+          {{ pageNo }}
+        </a>
+    
+        <a 
+          (click)="goToNextPage()" 
+          [class.opacity-70]="currentPageNo === totalPageCount" 
+          class="px-4 py-2 bg-gray-100 rounded-full shadow hover:bg-gray-200 transition text-gray-700 cursor-pointer"
+          [ngClass]="{'cursor-not-allowed': currentPageNo === totalPageCount}">
+          Sonraki
+        </a>
+      </nav>
+      <div class="text-sm text-gray-500">
+        {{ currentPageNo }} / {{ totalPageCount }}
+      </div>
+    </div>
+    
+    
+  </div>
+</section>
