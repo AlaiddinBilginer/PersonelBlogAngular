@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from '../common/http-client.service';
 import { Observable } from 'rxjs';
-import { ListPost } from '../../contracts/list-post';
+import { ListPost } from '../../contracts/post/list-post';
 import { CreatePostRequest } from '../../contracts/post/create-post-request';
+import { DetailsPost } from '../../contracts/post/details-post';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,13 @@ export class PostService {
       controller: 'posts',
       action: 'create'
     }, createPostRequest);
+  }
+
+  getById(blogId: string) : Observable<DetailsPost> {
+    return this.httpClientService.get<DetailsPost>({
+      controller: 'posts',
+      action: `getById`,
+      queryString: `id=${blogId}`
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../../../services/models/post.service';
-import { ListPost } from '../../../../contracts/list-post';
+import { ListPost } from '../../../../contracts/post/list-post';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ export class ListBlogComponent implements OnInit {
   currentPageNo: number = 1;
   totalCount: number;
   totalPageCount: number;
-  pageSize: number = 9;
+  pageSize: number = 6;
   pageList: number[] = [];
 
   constructor(

@@ -4,11 +4,11 @@
       <div class="bg-white rounded-lg overflow-hidden shadow-md relative"
         *ngFor="let post of posts"
       >
-        <a href="#" class="block">
+        <a [routerLink]="['/blogs/details', post.id]" class="block">
           <img [src]="post.firstImage ?? '../../../../assets/default-image.png'" alt="Blog Image" class="w-full h-44 object-cover transform transition hover:scale-105 cursor-pointer">
         </a>
         <div class="p-4">
-          <a href="#" class="block">
+          <a [routerLink]="['/blogs/details', post.id]" class="block">
             <h2 class="text-xl font-semibold mb-2 hover:underline cursor-pointer">{{ post.title }}</h2>
           </a>
           <p class="text-gray-700 mb-4">{{ post.content.substring(0, 45) }}...</p>
@@ -23,7 +23,7 @@
             <p>Yazar: Alaiddin Bilginer</p>
           </div>
         </div>
-        <a href="#" class="absolute bottom-4 right-4 text-blue-600 hover:text-blue-800 transition-transform transform hover:scale-110 hover:translate-y-1">
+        <a [routerLink]="['/blogs/details', post.id]" class="absolute bottom-4 right-4 text-blue-600 hover:text-blue-800 transition-transform transform hover:scale-110 hover:translate-y-1">
           <img src="../../../../assets/right.png" alt="Arrow Icon" class="h-6 w-6">
         </a>
       </div>
