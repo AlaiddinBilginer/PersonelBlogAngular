@@ -15,53 +15,56 @@ export class HttpErrorService implements HttpInterceptor {
 
   constructor(
     private toastrService: CustomToastrService,
-    private spinner: NgxSpinnerService,
-    private authService: AuthService,
-    private localStorageService: LocalStorageService,
-    private identityService: IdentityService,
-    private router: Router
+    private spinner: NgxSpinnerService
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(catchError((error) => {
-      let message = '';
-      let title = '';
+    return next.handle(req).pipe(
+      catchError((error) => {
+        this.spinner.hide();
 
-      switch(error.status) {
-        case HttpStatusCode.Unauthorized:
-          message = "Bu işlemi yapmak için yetkiniz yok";
-          title = "Yetkisiz İşlem";
-          break;
-        case HttpStatusCode.InternalServerError:
-          message = "Sunucuya erişilemedi";
-          title = "Sunucu Hatası";
-          break;
-        case HttpStatusCode.BadRequest:
-          message = "Geçersiz istek yapıldı";
-          title = "Geçersiz İstek"
-          break;
-        case HttpStatusCode.NotFound:
-          message = "Kaynak bulunamadı";
-          title = "Bulunamadı";
-          break;
-        case HttpStatusCode.Forbidden:
-          message = "Bu işlemi gerçekleştirmek için gerekli izinleriniz yok";
-          title = "Erişim Engellendi";
-          break;
-        default:
-          message = "Beklenmeyen bir hata meydana geldi!";
-          title = "Beklenmeyen Hata";
-          break;
-      }
+        if (error.status === HttpStatusCode.BadRequest && error.error instanceof Array) {
+          error.error.forEach((validationError: { field: string, message: string }) => {
+            this.toastrService.message(validationError.message, "Geçersiz", {
+              toastrMessageType: ToastrMessageType.Warning,
+              toastrPosition: ToastrPosition.BottomLeft
+            });
+          });
+        } else {
+          let message = '';
+          let title = '';
 
-      this.toastrService.message(message, title, {
-        toastrMessageType: ToastrMessageType.Warning,
-        toastrPosition: ToastrPosition.BottomLeft
-      });
+          switch (error.status) {
+            case HttpStatusCode.Unauthorized:
+              message = "Bu işlemi yapmak için yetkiniz yok";
+              title = "Yetkisiz İşlem";
+              break;
+            case HttpStatusCode.InternalServerError:
+              message = "Sunucuya erişilemedi";
+              title = "Sunucu Hatası";
+              break;
+            case HttpStatusCode.NotFound:
+              message = "Kaynak bulunamadı";
+              title = "Bulunamadı";
+              break;
+            case HttpStatusCode.Forbidden:
+              message = "Bu işlemi gerçekleştirmek için gerekli izinleriniz yok";
+              title = "Erişim Engellendi";
+              break;
+            default:
+              message = "Beklenmeyen bir hata meydana geldi!";
+              title = "Beklenmeyen Hata";
+              break;
+          }
 
-      this.spinner.hide();
-      
-      return of(error);
-    }));
+          this.toastrService.message(message, title, {
+            toastrMessageType: ToastrMessageType.Warning,
+            toastrPosition: ToastrPosition.BottomLeft
+          });
+        }
+        
+        return of(error);
+      })
+    );
   }
 }

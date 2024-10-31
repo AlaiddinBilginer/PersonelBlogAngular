@@ -7,11 +7,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileUploadModule } from '../../services/common/file-upload/file-upload.module';
 import { CoverPhotoUploadComponent } from './cover-photo-upload/cover-photo-upload.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CreateTagsComponent } from './create-tags/create-tags.component';
 
 @NgModule({
   declarations: [
     BlogCreateComponent,
-    CoverPhotoUploadComponent
+    CoverPhotoUploadComponent,
+    CreateTagsComponent
   ],
   imports: [
     CommonModule,

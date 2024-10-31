@@ -40,12 +40,16 @@
     </div>
 
     <div class="flex flex-wrap mb-12 space-x-2">
-      <span class="bg-green-50 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-100 transition">
-        #Yazılım
-      </span>
-      <span class="bg-green-50 text-green-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-green-100 transition">
-        #Teknoloji
-      </span>
+      <a 
+        *ngFor="let tag of detailsPost.tags"
+        href="#"
+      >
+        <span 
+          class="bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-indigo-100 
+                transition">
+          {{ tag.title }}
+        </span>
+      </a>
     </div>
 
     <div class="flex items-center justify-between bg-white p-6 rounded-lg shadow-lg mb-8">
@@ -64,7 +68,7 @@
         </div>
       </div>
       <div>
-        <button class="text-sm bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
+        <button class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
           Follow
         </button>
       </div>
@@ -75,7 +79,7 @@
       <form >
         <textarea  name="comment" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 mb-4" placeholder="Yorumunuzu yazın..."></textarea>
         <div class="flex justify-end">
-          <button type="submit" class="text-sm bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
+          <button type="submit" class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
             Yorum Yap
           </button>
         </div>
@@ -104,11 +108,12 @@
         </div>
 
         <div class="flex justify-end">
-          <button class="text-sm bg-green-500 hover:bg-green-600 text-white py-1 px-4 rounded-lg transition duration-300 shadow-md">
+          <button class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-1 px-4 rounded-lg transition duration-300 shadow-md">
             Yanıtla
           </button>
         </div>
       </div>
+      
     </div>
     
   </div>

@@ -1,10 +1,13 @@
-import { Component, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from '../../../services/models/post.service';
 import { CreatePostRequest } from '../../../contracts/post/create-post-request';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CreatePostResponse } from '../../../contracts/post/create-post-response';
+import { TagService } from '../../../services/models/tag.service';
+import { CreateTagRequest } from '../../../contracts/tags/create-tag-request';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-create',
@@ -14,21 +17,13 @@ import { CreatePostResponse } from '../../../contracts/post/create-post-response
 export class BlogCreateComponent {
   blogForm: FormGroup;
   isBlogSaved: boolean = false;
-  isPhotosSaved: boolean = false;
-  tags: string[] = [];
-
-  tagInput: string = '';
-  allTags: string[] = ['Teknoloji', 'Yapay Zeka', 'Eğitim', 'Tarih', 'Girişimcilik'];
-  filteredTags: string[] = [];
-  selectedTags: string[] = [];
-  isTagDropdownOpen: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
     private toastrService: CustomToastrService,
-    private eRef: ElementRef,
-    private spinnerService: NgxSpinnerService
+    private spinnerService: NgxSpinnerService,
+
   ) {
     this.blogForm = formBuilder.group({
       title: ['', Validators.required],
@@ -37,6 +32,7 @@ export class BlogCreateComponent {
   }
 
   @Output() blogId: string;
+  @Output() isPhotosSaved: boolean = false;
 
   saveBlog() {
     if (this.blogForm.valid) {
@@ -64,7 +60,7 @@ export class BlogCreateComponent {
     } else {
       this.toastrService.message("Geçersiz değerler girdiniz", "Geçersiz İşlem", {
         toastrMessageType: ToastrMessageType.Warning,
-        toastrPosition: ToastrPosition.TopRight
+        toastrPosition: ToastrPosition.BottomLeft
       });
     }
   }
@@ -73,39 +69,5 @@ export class BlogCreateComponent {
     if (success) {
       this.isPhotosSaved = true;
     }
-  }
-
-  filterTags() {
-    if (!this.tagInput.trim()) {
-      this.isTagDropdownOpen = false;
-      return;
-    }
-    this.filteredTags = this.allTags.filter(tag => 
-      tag.toLowerCase().includes(this.tagInput.toLowerCase()) && !this.selectedTags.includes(tag)
-    );
-    this.isTagDropdownOpen = this.filteredTags.length > 0;
-  }
-
-  addTag(tag: string) {
-    tag = tag.trim();
-    if (tag && !this.selectedTags.includes(tag)) {
-      this.selectedTags.push(tag);
-    }
-    this.clearTagInput();
-  }
-
-  selectTag(tag: string) {
-    this.addTag(tag);
-    this.clearTagInput();
-  }
-
-  removeTag(tag: string) {
-    this.selectedTags = this.selectedTags.filter(t => t !== tag);
-  }
-
-  clearTagInput() {
-    this.tagInput = '';
-    this.filteredTags = [];
-    this.isTagDropdownOpen = false;
   }
 }

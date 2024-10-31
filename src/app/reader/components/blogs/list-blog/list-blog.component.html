@@ -20,7 +20,7 @@
           </div>
           <div class="text-gray-500 text-sm flex items-center">
             <img src="../../../../assets/user.png" alt="User Icon" class="h-4 w-4 mr-1">
-            <p>Yazar: Alaiddin Bilginer</p>
+            <a href="#" class="hover:underline"><p>Yazar: {{ (post.firstName + ' ' + post.lastName) == 'null null' ? post.userName : (post.firstName + ' ' + post.lastName)}}</p></a>
           </div>
         </div>
         <a [routerLink]="['/blogs/details', post.id]" class="absolute bottom-4 right-4 text-blue-600 hover:text-blue-800 transition-transform transform hover:scale-110 hover:translate-y-1">

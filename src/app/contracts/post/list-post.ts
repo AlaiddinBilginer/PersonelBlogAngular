@@ -4,4 +4,8 @@ export interface ListPost {
   content: string;
   firstImage: string;
   createdDate: Date;
+  applicationUserId: string;
+  userName: string;
+  firstName?: string;
+  lastName?: string;
 }
