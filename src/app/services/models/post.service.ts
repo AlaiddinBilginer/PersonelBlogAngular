@@ -12,11 +12,11 @@ export class PostService {
   
   constructor(private httpClientService: HttpClientService) { }
 
-  getAll(page: number = 0, size: number = 9) : Observable<{totalCount: number; posts: ListPost[]}> {
+  getAll(page: number = 0, size: number = 9, tagTitle: string) : Observable<{totalCount: number; posts: ListPost[]}> {
     return this.httpClientService.get<{totalCount: number, posts: ListPost[]}>({
       controller: 'posts',
       action: 'GetAll',
-      queryString: `pagination.page=${page}&pagination.size=${size}`
+      queryString: `pagination.page=${page}&pagination.size=${size}&tagTitle=${tagTitle}`
     });
   }
 

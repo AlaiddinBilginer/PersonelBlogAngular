@@ -17,7 +17,9 @@ import { DetailsBlogComponent } from './details-blog/details-blog.component';
     RouterModule.forChild(
       [
         { path: '', component: BlogsComponent },
-        { path: 'details/:blogId', component: DetailsBlogComponent}
+        { path: 'details/:blogId', component: DetailsBlogComponent },
+        { path: 'category/:tagTitle', component: ListBlogComponent },
+        { path: 'category/:tagTitle/page/:pageNo', component: ListBlogComponent }
       ]
     ),
     PipesModule

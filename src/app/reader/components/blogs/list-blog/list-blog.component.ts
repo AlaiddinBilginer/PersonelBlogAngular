@@ -16,6 +16,7 @@ export class ListBlogComponent implements OnInit {
   totalPageCount: number;
   pageSize: number = 6;
   pageList: number[] = [];
+  tagTitle: string;
 
   constructor(
     private postService: PostService,
@@ -26,14 +27,15 @@ export class ListBlogComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.currentPageNo = parseInt(params["pageNo"] ?? '1', 10);
+      this.tagTitle = params['tagTitle'];
+      this.currentPageNo = parseInt(params['pageNo'] ?? '1', 10);
       this.getAll(this.currentPageNo - 1);
     });
   }
 
   getAll(pageNo: number) {
     this.spinnerService.show();
-    this.postService.getAll(pageNo, this.pageSize).subscribe({
+    this.postService.getAll(pageNo, this.pageSize, this.tagTitle || '').subscribe({
       next: (response) => {
         this.posts = response.posts;
         this.spinnerService.hide();
@@ -59,15 +61,31 @@ export class ListBlogComponent implements OnInit {
     }
   }
 
+  getRouterLink(pageNo: number): any[] {
+    return this.tagTitle
+      ? ['/blogs/category', this.tagTitle, 'page', pageNo]
+      : ['/blogs/page', pageNo];
+  }
+
   goToPreviousPage() {
     if (this.currentPageNo > 1) {
-      this.router.navigate(['/blogs', this.currentPageNo - 1]);
+      if(this.tagTitle) {
+        this.router.navigate([`/blogs/category/${this.tagTitle}/page`, this.currentPageNo - 1]);
+      } else {
+        this.router.navigate(['/blogs/page', this.currentPageNo - 1]);
+      }
+
     }
   }
 
   goToNextPage() {
     if (this.currentPageNo < this.totalPageCount) {
-      this.router.navigate(['/blogs', this.currentPageNo + 1]);
+      if(this.tagTitle) {
+        this.router.navigate([`/blogs/category/${this.tagTitle}/page`, this.currentPageNo + 1]);
+      } else {
+        this.router.navigate(['/blogs/page', this.currentPageNo + 1]);
+      }
+      
     }
   }
 }

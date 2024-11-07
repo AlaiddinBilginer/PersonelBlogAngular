@@ -6,6 +6,7 @@ import { NotFoundComponent } from './shared/components/not-found/not-found.compo
 import { RegisterComponent } from './reader/components/register/register.component';
 import { LoginComponent } from './reader/components/login/login.component';
 import { authGuard } from './guards/auth.guard';
+import { ListBlogComponent } from './reader/components/blogs/list-blog/list-blog.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,10 +16,18 @@ const routes: Routes = [
       import('./reader/components/blogs/blogs.module')
         .then((module) => module.BlogsModule),
   },
+
   { 
-    path: 'blogs/:pageNo', loadChildren: () => 
-      import('./reader/components/blogs/blogs.module')
-        .then((module) => module.BlogsModule),
+    path: 'blogs/page/:pageNo', 
+    loadChildren: () => import('./reader/components/blogs/blogs.module').then(m => m.BlogsModule),
+  },
+  { 
+    path: 'blogs/category/:tagTitle', 
+    loadChildren: () => import('./reader/components/blogs/blogs.module').then(m => m.BlogsModule),
+  },
+  { 
+    path: 'blogs/category/:tagTitle/page/:pageNo', 
+    loadChildren: () => import('./reader/components/blogs/blogs.module').then(m => m.BlogsModule),
   },
 
   { 

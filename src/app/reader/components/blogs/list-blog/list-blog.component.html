@@ -30,7 +30,7 @@
     </div>
 
     <div class="flex flex-col items-center mt-8 space-y-4">
-  
+
       <nav class="inline-flex items-center space-x-2">
         <a 
           (click)="goToPreviousPage()" 
@@ -42,7 +42,7 @@
     
         <a 
           *ngFor="let pageNo of pageList" 
-          [routerLink]="['/blogs', pageNo]" 
+          [routerLink]="getRouterLink(pageNo)"
           class="px-4 py-2 rounded-full shadow text-sm"
           [ngClass]="{
             'bg-gray-100 text-gray-700 hover:bg-gray-200 transition': pageNo !== currentPageNo,
