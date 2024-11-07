@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ListBlogComponent } from './list-blog/list-blog.component';
 import { PipesModule } from '../../../pipes/pipes.module';
 import { DetailsBlogComponent } from './details-blog/details-blog.component';
+import { CommentsModule } from '../comments/comments.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DetailsBlogComponent } from './details-blog/details-blog.component';
         { path: 'category/:tagTitle/page/:pageNo', component: ListBlogComponent }
       ]
     ),
-    PipesModule
+    PipesModule,
+    CommentsModule
   ]
 })
 export class BlogsModule { }

@@ -1,0 +1,36 @@
+<div class="bg-gray-50  p-8 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto">
+  <h3 class="text-2xl font-semibold text-gray-900 mb-6 border-b pb-2 border-gray-200">
+    Yorumlar ({{ totalCommentCount }})
+  </h3>
+  
+  <div class="mb-6 p-6 bg-white rounded-lg shadow hover:shadow-lg transition-all duration-300" *ngFor="let comment of comments">
+    <div class="flex items-start mb-3">
+      <div class="w-14 mr-4 flex-shrink-0">
+        <a href="#">
+          <img 
+            [src]="comment.profilePictureUrl == null 
+              ? '../../../../assets/null-profil-photo.png' 
+              : 'https://randomuser.me/api/portraits/men/62.jpg'" 
+            alt="Profile picture" 
+            class="w-14 h-14 rounded-full shadow-lg hover:scale-105 transition-transform duration-300"
+          >
+        </a>
+      </div>
+      <div class="flex-grow">
+        <a href="#" class="hover:underline">
+          <h4 class="text-lg font-semibold text-gray-800">
+            {{ (comment.firstName + ' ' + comment.lastName) == 'null null' ? comment.userName : (comment.firstName + ' ' + comment.lastName)}}
+          </h4>
+        </a>
+        <p class="text-gray-500 text-sm">{{ comment.createdDate | formatDate }}</p>
+        <p class="mt-2 text-gray-700 leading-relaxed">{{ comment.content }}</p>
+      </div>
+    </div>
+
+    <div class="flex justify-end">
+      <button class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-1 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+        Yanıtla
+      </button>
+    </div>
+  </div>
+</div>

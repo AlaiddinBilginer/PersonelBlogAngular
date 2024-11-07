@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from '../../../../services/models/post.service';
 import { DetailsPost } from '../../../../contracts/post/details-post';
@@ -20,9 +20,12 @@ export class DetailsBlogComponent implements OnInit {
     private spinnerService: NgxSpinnerService
   ) {}
 
+  @Output() postId: string;
+
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.getPostById(params['blogId']);
+      this.postId = params['blogId'];
+      this.getPostById(this.postId);
     });
   }
 
@@ -30,13 +33,11 @@ export class DetailsBlogComponent implements OnInit {
     this.spinnerService.show();
     this.postService.getById(blogId).subscribe({
       next: (response) => {
-        console.log(response);
         this.detailsPost = response;
         this.dataLoaded = true;
         this.spinnerService.hide();
       },
       error: (responseError) => {
-        console.log(responseError);
         this.spinnerService.hide();
       }
     })

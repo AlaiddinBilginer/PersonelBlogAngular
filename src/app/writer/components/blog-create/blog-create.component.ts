@@ -5,9 +5,6 @@ import { CreatePostRequest } from '../../../contracts/post/create-post-request';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CreatePostResponse } from '../../../contracts/post/create-post-response';
-import { TagService } from '../../../services/models/tag.service';
-import { CreateTagRequest } from '../../../contracts/tags/create-tag-request';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-create',
