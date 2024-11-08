@@ -28,4 +28,11 @@ export class CommentService {
       queryString: `postId=${postId}&pagination.page=${page}&pagination.size=${size}`
     });
   }
+
+  delete(id: string) : Observable<ResponseModel> {
+    return this.httpClientService.delete<ResponseModel>({
+      controller: 'comments',
+      action: 'delete'
+    }, id);
+  }
 }

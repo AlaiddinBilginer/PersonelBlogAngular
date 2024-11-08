@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommentService } from '../../../../services/models/comment.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../../services/common/custom-toastr.service';
@@ -27,6 +27,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   @Input() postId: string;
+  @Output() commentCreated = new EventEmitter<void>();
 
   ngOnInit(): void {
   }
@@ -44,6 +45,7 @@ export class CreateCommentComponent implements OnInit {
             toastrMessageType: ToastrMessageType.Success,
             toastrPosition: ToastrPosition.BottomRight
           });
+          this.commentCreated.emit();
         },
         error: (responseError) => {
           this.spinnerService.hide();

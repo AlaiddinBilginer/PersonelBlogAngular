@@ -6,29 +6,57 @@ import { LocalStorageService } from './common/local-storage.service';
   providedIn: 'root'
 })
 export class IdentityService {
+  private _isAuthenticated: boolean = false;
 
   constructor(
     private jwtHelper: JwtHelperService,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {
+    this.checkIdentity();
+  }
 
   checkIdentity() {
-    const token: string = this.localStorageService.get("accessToken");
+    const token: string | null = this.localStorageService.get("accessToken");
 
     let isExpired: boolean;
 
     try {
-      isExpired = this.jwtHelper.isTokenExpired(token);
+      isExpired = token ? this.jwtHelper.isTokenExpired(token) : true;
     } catch {
       isExpired = true;
     }
 
-    _isAuthenticated = token !== null && !isExpired;
+    this._isAuthenticated = token !== null && !isExpired;    
   }
 
   get isAuthenticated(): boolean {
-    return _isAuthenticated;
+    return this._isAuthenticated;
+  }
+
+  getUserName(): string | null {
+    const token = this.localStorageService.get("accessToken");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || null;
+    }
+    return null;
+  }
+
+  getUserId(): string | null {
+    const token = this.localStorageService.get("accessToken");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || null;
+    }
+    return null;
+  }
+
+  getProfilePicture(): string | null {
+    const token = this.localStorageService.get("accessToken");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken['ProfilePictureUrl'] || null;
+    }
+    return null;
   }
 }
-
-export let _isAuthenticated: boolean;

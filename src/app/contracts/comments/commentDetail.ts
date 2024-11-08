@@ -1,5 +1,6 @@
 export class CommentDetail {
   id: string;
+  applicationUserId: string;
   content: string;
   createdDate: Date;
   updatedDate: Date;

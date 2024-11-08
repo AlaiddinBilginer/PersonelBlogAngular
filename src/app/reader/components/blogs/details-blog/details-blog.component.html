@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <app-create-comment [postId]="postId"></app-create-comment>
+    <app-create-comment [postId]="postId" (commentCreated)="onCommentCreated()"></app-create-comment>
 
     <app-list-comment [postId]="postId"></app-list-comment>
     

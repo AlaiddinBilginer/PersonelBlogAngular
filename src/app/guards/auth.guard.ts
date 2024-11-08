@@ -4,7 +4,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../services/common/custom-toastr.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LocalStorageService } from '../services/common/local-storage.service';
-import { _isAuthenticated, IdentityService } from '../services/identity.service';
+import { IdentityService } from '../services/identity.service';
 import { AuthService } from '../services/auth/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
@@ -52,7 +52,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     })
   }
 
-  if(!_isAuthenticated) {
+  if(!identityService.isAuthenticated) {
     router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     toastrService.message("Oturum açmanız gerekiyor", "Yetkisiz Erişim", {
       toastrMessageType: ToastrMessageType.Info,

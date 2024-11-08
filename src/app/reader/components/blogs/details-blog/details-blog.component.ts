@@ -1,8 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from '../../../../services/models/post.service';
 import { DetailsPost } from '../../../../contracts/post/details-post';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ListCommentComponent } from '../../comments/list-comment/list-comment.component';
 
 @Component({
   selector: 'app-details-blog',
@@ -21,6 +22,7 @@ export class DetailsBlogComponent implements OnInit {
   ) {}
 
   @Output() postId: string;
+  @ViewChild(ListCommentComponent) listCommentComponent: ListCommentComponent;
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -41,6 +43,10 @@ export class DetailsBlogComponent implements OnInit {
         this.spinnerService.hide();
       }
     })
+  }
+
+  onCommentCreated() {
+    this.listCommentComponent.getAllByPostId();
   }
 
   nextSlide() {
