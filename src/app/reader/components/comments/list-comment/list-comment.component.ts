@@ -135,4 +135,19 @@ export class ListCommentComponent implements OnInit {
       this.selectedCommentId = null;
     }
   }
+
+  loadMore() {
+    this.page++;
+    this.spinnerService.show();
+    this.commentService.getAllByPostId(this.postId, this.page, this.size).subscribe({
+      next: (response) => {
+        this.comments = [...this.comments, ...response.comments];
+        this.spinnerService.hide();
+      },
+      error: (responseError) => {
+        console.log(responseError);
+        this.spinnerService.hide();
+      }
+    });
+  }
 }
