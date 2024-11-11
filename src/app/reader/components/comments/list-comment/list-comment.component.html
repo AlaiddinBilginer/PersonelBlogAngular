@@ -24,7 +24,17 @@
           </h4>
         </a>
         <p class="text-gray-500 text-sm">{{ comment.createdDate | formatDate }}</p>
-        <p class="mt-2 text-gray-700 leading-relaxed">{{ comment.content }}</p>
+
+        <div *ngIf="editingCommentId !== comment.id">
+          <p class="mt-2 text-gray-700 leading-relaxed">{{ comment.content }}</p>
+        </div>
+        <div *ngIf="editingCommentId === comment.id" class="mt-2">
+          <input 
+            [(ngModel)]="editContent" 
+            type="text" 
+            class="border border-gray-300 rounded-lg p-2 w-full text-gray-700"
+          />
+        </div>
       </div>
 
       <div class="relative" *ngIf="identityService.getUserId() === comment.applicationUserId">
@@ -35,14 +45,23 @@
         </button>
 
         <div *ngIf="selectedCommentId === comment.id" class="absolute right-0 w-28 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-          <button (click)="editComment(comment)" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Düzenle</button>
+          <button (click)="editComment(comment.id, comment.content)" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Düzenle</button>
           <button (click)="deleteComment(comment.id)" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Sil</button>
         </div>
       </div>
     </div>
 
-    <div class="flex justify-end">
-      <button class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-1 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+    <div class="flex justify-end" *ngIf="editingCommentId === comment.id">
+      <button (click)="saveComment(comment.id)" class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 mr-2">
+        Kaydet
+      </button>
+      <button (click)="cancelEdit()" class="text-sm bg-gray-500 hover:bg-gray-600 text-white py-1 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+        İptal
+      </button>
+    </div>
+
+    <div class="flex justify-end" *ngIf="editingCommentId !== comment.id">
+      <button class="text-sm bg-indigo-100 hover:bg-indigo-500 hover:text-white py-1 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
         Yanıtla
       </button>
     </div>

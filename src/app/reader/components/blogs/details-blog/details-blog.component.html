@@ -42,7 +42,7 @@
     <div class="flex flex-wrap mb-12 space-x-2">
       <a 
         *ngFor="let tag of detailsPost.tags"
-        href="#"
+        [routerLink]="['/blogs/category', tag.title]"
       >
         <span 
           class="bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full hover:bg-indigo-100 
@@ -56,19 +56,19 @@
       <div class="flex items-center">
         <div class="w-16 mr-4">
           <a href="#">
-            <img src="https://randomuser.me/api/portraits/men/62.jpg" alt="Profile picture" 
+            <img [src]="detailsPost.profilePictureUrl ?? '../../../../assets/null-profil-photo.png'" alt="Profile picture" 
               class="w-16 h-16 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300">
           </a>
         </div>
         <div>
           <a href="#" class="hover:underline">
-            <h2 class="text-xl font-bold text-gray-800">alaiddin</h2>
+            <h2 class="text-xl font-bold text-gray-800">{{ (detailsPost.firstName + ' ' + detailsPost.lastName) == 'null null' ? detailsPost.userName : (detailsPost.firstName + ' ' + detailsPost.lastName) }}</h2>
           </a>
-          <p class="text-gray-500">Yazılım Mühendisi</p>
+          <!-- <p class="text-gray-500">Yazılım Mühendisi</p> -->
         </div>
       </div>
       <div>
-        <button class="text-sm bg-sky-500 hover:bg-sky-600 text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
+        <button class="text-sm bg-green-100 hover:bg-green-500 hover:text-white py-2 px-6 rounded-lg transition duration-300 shadow-md">
           Follow
         </button>
       </div>

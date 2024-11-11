@@ -4,6 +4,7 @@ import { CreateCommentRequest } from '../../contracts/comments/create-comment-re
 import { Observable } from 'rxjs';
 import { ResponseModel } from '../../contracts/common/responseModel';
 import { ListCommentResponse } from '../../contracts/comments/list-comment/list-comment-response';
+import { UpdateCommentRequest } from '../../contracts/comments/update-comment/update-comment.request';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,12 @@ export class CommentService {
       controller: 'comments',
       action: 'delete'
     }, id);
+  }
+
+  update(updateCommentRequest: UpdateCommentRequest) : Observable<ResponseModel> {
+    return this.httpClientService.put<ResponseModel>({
+      controller: 'comments',
+      action: 'update'
+    }, updateCommentRequest);
   }
 }

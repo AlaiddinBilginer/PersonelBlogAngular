@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../services/common/local-storage.service';
 import { CustomToastrService, ToastrMessageType, ToastrPosition } from '../../../services/common/custom-toastr.service';
@@ -17,7 +17,8 @@ export class NavbarComponent {
     public identityService: IdentityService,
     private router: Router,
     private localStorageService: LocalStorageService,
-    private toastrService: CustomToastrService
+    private toastrService: CustomToastrService,
+    private eRef: ElementRef
   ) {
     identityService.checkIdentity();
   }
@@ -39,5 +40,12 @@ export class NavbarComponent {
 
   toggleProfileMenu() {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    if(!this.eRef.nativeElement.contains(event.target)) {
+      this.isProfileMenuOpen = false;
+    }
   }
 }

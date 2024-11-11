@@ -8,7 +8,10 @@ export class DetailsPost {
   content: string;
   createdDate: Date;
   updatedDate: Date;
-  comments: Comment[];
   tags: Tag[];
   postImages: PostImage[];
+  userName: string;
+  firstName: string;
+  lastName: string;
+  profilePictureUrl: string;
 }
